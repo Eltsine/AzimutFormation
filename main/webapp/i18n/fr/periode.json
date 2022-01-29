@@ -1,0 +1,26 @@
+{
+  "azimutApp": {
+    "periode": {
+      "home": {
+        "title": "Periodes",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Periode",
+        "createOrEditLabel": "Créer ou éditer un Periode",
+        "notFound": "Aucun Periode trouvé"
+      },
+      "created": "Un nouveau Periode a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Periode avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Periode avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Periode {{ id }} ?"
+      },
+      "detail": {
+        "title": "Periode"
+      },
+      "id": "Id",
+      "duree": "Duree",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-modules-heading" data-cy="ModulesCreateUpdateHeading" jhiTranslate="azimutApp.modules.home.createOrEditLabel">
+        Create or edit a Modules
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="azimutApp.modules.id" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.modules.nomModule" for="field_nomModule">Nom Module</label>
+          <select class="form-control" name="nomModule" formControlName="nomModule" id="field_nomModule" data-cy="nomModule">
+            <option [ngValue]="null">{{ 'azimutApp.NomModules.null' | translate }}</option>
+            <option value="Math_PC">{{ 'azimutApp.NomModules.Math_PC' | translate }}</option>
+            <option value="Math_SVT">{{ 'azimutApp.NomModules.Math_SVT' | translate }}</option>
+            <option value="PC_SVT">{{ 'azimutApp.NomModules.PC_SVT' | translate }}</option>
+            <option value="Math_Pc_SVT">{{ 'azimutApp.NomModules.Math_Pc_SVT' | translate }}</option>
+            <option value="Anglais">{{ 'azimutApp.NomModules.Anglais' | translate }}</option>
+            <option value="Francais">{{ 'azimutApp.NomModules.Francais' | translate }}</option>
+            <option value="Philosphie">{{ 'azimutApp.NomModules.Philosphie' | translate }}</option>
+            <option value="Francais_Anglais_Math">{{ 'azimutApp.NomModules.Francais_Anglais_Math' | translate }}</option>
+            <option value="Francais_Philo">{{ 'azimutApp.NomModules.Francais_Philo' | translate }}</option>
+            <option value="Francais_Anglais_Philo">{{ 'azimutApp.NomModules.Francais_Anglais_Philo' | translate }}</option>
+            <option value="Bureatique">{{ 'azimutApp.NomModules.Bureatique' | translate }}</option>
+            <option value="Infographie">{{ 'azimutApp.NomModules.Infographie' | translate }}</option>
+          </select>
+          <div *ngIf="editForm.get('nomModule')!.invalid && (editForm.get('nomModule')!.dirty || editForm.get('nomModule')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nomModule')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.modules.prix" for="field_prix">Prix</label>
+          <input type="number" class="form-control" name="prix" id="field_prix" data-cy="prix" formControlName="prix" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.modules.formation" for="field_formation">Formation</label>
+          <select class="form-control" id="field_formation" data-cy="formation" name="formation" formControlName="formation">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="formationOption.id === editForm.get('formation')!.value?.id ? editForm.get('formation')!.value : formationOption"
+              *ngFor="let formationOption of formationsSharedCollection; trackBy: trackFormationById"
+            >
+              {{ formationOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-salle-heading" data-cy="SalleCreateUpdateHeading" jhiTranslate="azimutApp.salle.home.createOrEditLabel">
+        Create or edit a Salle
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="azimutApp.salle.id" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.salle.nomSalle" for="field_nomSalle">Nom Salle</label>
+          <input type="text" class="form-control" name="nomSalle" id="field_nomSalle" data-cy="nomSalle" formControlName="nomSalle" />
+          <div *ngIf="editForm.get('nomSalle')!.invalid && (editForm.get('nomSalle')!.dirty || editForm.get('nomSalle')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nomSalle')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.salle.capacite" for="field_capacite">Capacite</label>
+          <input type="number" class="form-control" name="capacite" id="field_capacite" data-cy="capacite" formControlName="capacite" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.salle.session" for="field_session">Session</label>
+          <select class="form-control" id="field_session" data-cy="session" name="session" formControlName="session">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="sessionOption.id === editForm.get('session')!.value?.id ? editForm.get('session')!.value : sessionOption"
+              *ngFor="let sessionOption of sessionsSharedCollection; trackBy: trackSessionById"
+            >
+              {{ sessionOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

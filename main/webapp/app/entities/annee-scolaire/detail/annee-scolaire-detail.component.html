@@ -1,0 +1,32 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="anneeScolaire">
+      <h2 data-cy="anneeScolaireDetailsHeading"><span jhiTranslate="azimutApp.anneeScolaire.detail.title">Annee Scolaire</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="azimutApp.anneeScolaire.id">Id</span></dt>
+        <dd>
+          <span>{{ anneeScolaire.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.anneeScolaire.libelleAnnee">Libelle Annee</span></dt>
+        <dd>
+          <span>{{ anneeScolaire.libelleAnnee }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/annee-scolaire', anneeScolaire.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

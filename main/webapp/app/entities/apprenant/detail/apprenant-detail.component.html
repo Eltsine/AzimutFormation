@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="apprenant">
+      <h2 data-cy="apprenantDetailsHeading"><span jhiTranslate="azimutApp.apprenant.detail.title">Apprenant</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="azimutApp.apprenant.id">Id</span></dt>
+        <dd>
+          <span>{{ apprenant.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.photo">Photo</span></dt>
+        <dd>
+          <div *ngIf="apprenant.photo">
+            <a (click)="openFile(apprenant.photo, apprenant.photoContentType)">
+              <img
+                [src]="'data:' + apprenant.photoContentType + ';base64,' + apprenant.photo"
+                style="max-width: 100%"
+                alt="apprenant image"
+              />
+            </a>
+            {{ apprenant.photoContentType }}, {{ byteSize(apprenant.photo) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.nom">Nom</span></dt>
+        <dd>
+          <span>{{ apprenant.nom }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.prenom">Prenom</span></dt>
+        <dd>
+          <span>{{ apprenant.prenom }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.statut">Statut</span></dt>
+        <dd>
+          <span>{{ apprenant.statut }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.niveau">Niveau</span></dt>
+        <dd>
+          <span>{{ apprenant.niveau }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.etatStud">Etat Stud</span></dt>
+        <dd>
+          <span>{{ apprenant.etatStud }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.contact">Contact</span></dt>
+        <dd>
+          <span>{{ apprenant.contact }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.email">Email</span></dt>
+        <dd>
+          <span>{{ apprenant.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.addParent">Add Parent</span></dt>
+        <dd>
+          <span>{{ apprenant.addParent }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.inscription">Inscription</span></dt>
+        <dd>
+          <div *ngIf="apprenant.inscription">
+            <a [routerLink]="['/inscription', apprenant.inscription?.id, 'view']">{{ apprenant.inscription?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.apprenant.formateur">Formateur</span></dt>
+        <dd>
+          <div *ngIf="apprenant.formateur">
+            <a [routerLink]="['/formateur', apprenant.formateur?.id, 'view']">{{ apprenant.formateur?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/apprenant', apprenant.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

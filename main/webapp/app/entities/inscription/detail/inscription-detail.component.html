@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="inscription">
+      <h2 data-cy="inscriptionDetailsHeading"><span jhiTranslate="azimutApp.inscription.detail.title">Inscription</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="azimutApp.inscription.id">Id</span></dt>
+        <dd>
+          <span>{{ inscription.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.dateInscription">Date Inscription</span></dt>
+        <dd>
+          <span>{{ inscription.dateInscription | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.montantApayer">Montant Apayer</span></dt>
+        <dd>
+          <span>{{ inscription.montantApayer }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.montantVerse">Montant Verse</span></dt>
+        <dd>
+          <span>{{ inscription.montantVerse }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.resteApayer">Reste Apayer</span></dt>
+        <dd>
+          <span>{{ inscription.resteApayer }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.etatEtudiant">Etat Etudiant</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'azimutApp.EtatEtudiant.' + inscription.etatEtudiant }}">{{ inscription.etatEtudiant }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.periode">Periode</span></dt>
+        <dd>
+          <div *ngIf="inscription.periode">
+            <a [routerLink]="['/periode', inscription.periode?.id, 'view']">{{ inscription.periode?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.etablissement">Etablissement</span></dt>
+        <dd>
+          <div *ngIf="inscription.etablissement">
+            <a [routerLink]="['/etablissement', inscription.etablissement?.id, 'view']">{{ inscription.etablissement?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.inscription.anneeScolaire">Annee Scolaire</span></dt>
+        <dd>
+          <div *ngIf="inscription.anneeScolaire">
+            <a [routerLink]="['/annee-scolaire', inscription.anneeScolaire?.id, 'view']">{{ inscription.anneeScolaire?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/inscription', inscription.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

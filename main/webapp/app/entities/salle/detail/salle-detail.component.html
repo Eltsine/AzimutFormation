@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="salle">
+      <h2 data-cy="salleDetailsHeading"><span jhiTranslate="azimutApp.salle.detail.title">Salle</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="azimutApp.salle.id">Id</span></dt>
+        <dd>
+          <span>{{ salle.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.salle.nomSalle">Nom Salle</span></dt>
+        <dd>
+          <span>{{ salle.nomSalle }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.salle.capacite">Capacite</span></dt>
+        <dd>
+          <span>{{ salle.capacite }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.salle.session">Session</span></dt>
+        <dd>
+          <div *ngIf="salle.session">
+            <a [routerLink]="['/session', salle.session?.id, 'view']">{{ salle.session?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/salle', salle.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

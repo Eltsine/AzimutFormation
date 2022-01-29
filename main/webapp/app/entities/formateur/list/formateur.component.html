@@ -1,0 +1,139 @@
+<div>
+  <h2 id="page-heading" data-cy="FormateurHeading">
+    <span jhiTranslate="azimutApp.formateur.home.title">Formateurs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="azimutApp.formateur.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-formateur"
+        [routerLink]="['/formateur/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="azimutApp.formateur.home.createLabel"> Create a new Formateur </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="formateurs?.length === 0">
+    <span jhiTranslate="azimutApp.formateur.home.notFound">No formateurs found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="formateurs && formateurs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="azimutApp.formateur.id">Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="photo"><span jhiTranslate="azimutApp.formateur.photo">Photo</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="cnib"><span jhiTranslate="azimutApp.formateur.cnib">Cnib</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="nom"><span jhiTranslate="azimutApp.formateur.nom">Nom</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="prenom">
+            <span jhiTranslate="azimutApp.formateur.prenom">Prenom</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="statut">
+            <span jhiTranslate="azimutApp.formateur.statut">Statut</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="contact">
+            <span jhiTranslate="azimutApp.formateur.contact">Contact</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="email"><span jhiTranslate="azimutApp.formateur.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="salaireHoraire">
+            <span jhiTranslate="azimutApp.formateur.salaireHoraire">Salaire Horaire</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="salaireMensuel">
+            <span jhiTranslate="azimutApp.formateur.salaireMensuel">Salaire Mensuel</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="etablissement.id">
+            <span jhiTranslate="azimutApp.formateur.etablissement">Etablissement</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formateur of formateurs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/formateur', formateur.id, 'view']">{{ formateur.id }}</a>
+          </td>
+          <td>
+            <a *ngIf="formateur.photo" (click)="openFile(formateur.photo, formateur.photoContentType)">
+              <img
+                [src]="'data:' + formateur.photoContentType + ';base64,' + formateur.photo"
+                style="max-height: 30px"
+                alt="formateur image"
+              />
+            </a>
+            <span *ngIf="formateur.photo">{{ formateur.photoContentType }}, {{ byteSize(formateur.photo) }}</span>
+          </td>
+          <td>{{ formateur.cnib }}</td>
+          <td>{{ formateur.nom }}</td>
+          <td>{{ formateur.prenom }}</td>
+          <td>{{ formateur.statut }}</td>
+          <td>{{ formateur.contact }}</td>
+          <td>{{ formateur.email }}</td>
+          <td>{{ formateur.salaireHoraire }}</td>
+          <td>{{ formateur.salaireMensuel }}</td>
+          <td>
+            <div *ngIf="formateur.etablissement">
+              <a [routerLink]="['/etablissement', formateur.etablissement?.id, 'view']">{{ formateur.etablissement?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/formateur', formateur.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/formateur', formateur.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(formateur)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="formateurs && formateurs.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

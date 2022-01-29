@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="modules">
+      <h2 data-cy="modulesDetailsHeading"><span jhiTranslate="azimutApp.modules.detail.title">Modules</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="azimutApp.modules.id">Id</span></dt>
+        <dd>
+          <span>{{ modules.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.modules.nomModule">Nom Module</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'azimutApp.NomModules.' + modules.nomModule }}">{{ modules.nomModule }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.modules.prix">Prix</span></dt>
+        <dd>
+          <span>{{ modules.prix }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.modules.formation">Formation</span></dt>
+        <dd>
+          <div *ngIf="modules.formation">
+            <a [routerLink]="['/formation', modules.formation?.id, 'view']">{{ modules.formation?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/modules', modules.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

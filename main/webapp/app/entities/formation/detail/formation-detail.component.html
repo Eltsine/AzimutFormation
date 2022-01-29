@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="formation">
+      <h2 data-cy="formationDetailsHeading"><span jhiTranslate="azimutApp.formation.detail.title">Formation</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="azimutApp.formation.id">Id</span></dt>
+        <dd>
+          <span>{{ formation.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.formation.nomFormation">Nom Formation</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'azimutApp.NomFormation.' + formation.nomFormation }}">{{ formation.nomFormation }}</span>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.formation.rapport">Rapport</span></dt>
+        <dd>
+          <div *ngIf="formation.rapport">
+            <a [routerLink]="['/rapport', formation.rapport?.id, 'view']">{{ formation.rapport?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="azimutApp.formation.inscription">Inscription</span></dt>
+        <dd>
+          <div *ngIf="formation.inscription">
+            <a [routerLink]="['/inscription', formation.inscription?.id, 'view']">{{ formation.inscription?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/formation', formation.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

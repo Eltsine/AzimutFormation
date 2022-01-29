@@ -1,0 +1,138 @@
+<div>
+  <h2 id="page-heading" data-cy="InscriptionHeading">
+    <span jhiTranslate="azimutApp.inscription.home.title">Inscriptions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="azimutApp.inscription.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-inscription"
+        [routerLink]="['/inscription/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="azimutApp.inscription.home.createLabel"> Create a new Inscription </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="inscriptions?.length === 0">
+    <span jhiTranslate="azimutApp.inscription.home.notFound">No inscriptions found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="inscriptions && inscriptions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="azimutApp.inscription.id">Id</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dateInscription">
+            <span jhiTranslate="azimutApp.inscription.dateInscription">Date Inscription</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="montantApayer">
+            <span jhiTranslate="azimutApp.inscription.montantApayer">Montant Apayer</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="montantVerse">
+            <span jhiTranslate="azimutApp.inscription.montantVerse">Montant Verse</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="resteApayer">
+            <span jhiTranslate="azimutApp.inscription.resteApayer">Reste Apayer</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="etatEtudiant">
+            <span jhiTranslate="azimutApp.inscription.etatEtudiant">Etat Etudiant</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="periode.id">
+            <span jhiTranslate="azimutApp.inscription.periode">Periode</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="etablissement.id">
+            <span jhiTranslate="azimutApp.inscription.etablissement">Etablissement</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="anneeScolaire.id">
+            <span jhiTranslate="azimutApp.inscription.anneeScolaire">Annee Scolaire</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inscription of inscriptions; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/inscription', inscription.id, 'view']">{{ inscription.id }}</a>
+          </td>
+          <td>{{ inscription.dateInscription | formatMediumDate }}</td>
+          <td>{{ inscription.montantApayer }}</td>
+          <td>{{ inscription.montantVerse }}</td>
+          <td>{{ inscription.resteApayer }}</td>
+          <td jhiTranslate="{{ 'azimutApp.EtatEtudiant.' + inscription.etatEtudiant }}">{{ inscription.etatEtudiant }}</td>
+          <td>
+            <div *ngIf="inscription.periode">
+              <a [routerLink]="['/periode', inscription.periode?.id, 'view']">{{ inscription.periode?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="inscription.etablissement">
+              <a [routerLink]="['/etablissement', inscription.etablissement?.id, 'view']">{{ inscription.etablissement?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="inscription.anneeScolaire">
+              <a [routerLink]="['/annee-scolaire', inscription.anneeScolaire?.id, 'view']">{{ inscription.anneeScolaire?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/inscription', inscription.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/inscription', inscription.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(inscription)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="inscriptions && inscriptions.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

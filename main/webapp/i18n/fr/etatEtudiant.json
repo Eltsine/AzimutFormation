@@ -1,0 +1,9 @@
+{
+  "azimutApp": {
+    "EtatEtudiant": {
+      "null": "",
+      "PAYER": "PAYER",
+      "NON_PAYER": "NON_PAYER"
+    }
+  }
+}

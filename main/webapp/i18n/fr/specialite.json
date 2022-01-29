@@ -1,0 +1,25 @@
+{
+  "azimutApp": {
+    "specialite": {
+      "home": {
+        "title": "Specialites",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Specialite",
+        "createOrEditLabel": "Créer ou éditer un Specialite",
+        "notFound": "Aucun Specialite trouvé"
+      },
+      "created": "Un nouveau Specialite a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Specialite avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Specialite avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Specialite {{ id }} ?"
+      },
+      "detail": {
+        "title": "Specialite"
+      },
+      "id": "Id",
+      "libSpecialite": "Lib Specialite",
+      "formateur": "Formateur"
+    }
+  }
+}

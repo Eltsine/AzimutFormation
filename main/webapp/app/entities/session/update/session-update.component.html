@@ -1,0 +1,175 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-session-heading" data-cy="SessionCreateUpdateHeading" jhiTranslate="azimutApp.session.home.createOrEditLabel">
+        Create or edit a Session
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.dateDebut" for="field_dateDebut">Date Debut</label>
+          <div class="d-flex">
+            <input
+              id="field_dateDebut"
+              data-cy="dateDebut"
+              type="datetime-local"
+              class="form-control"
+              name="dateDebut"
+              formControlName="dateDebut"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.dateFin" for="field_dateFin">Date Fin</label>
+          <div class="d-flex">
+            <input
+              id="field_dateFin"
+              data-cy="dateFin"
+              type="datetime-local"
+              class="form-control"
+              name="dateFin"
+              formControlName="dateFin"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.nbreParticipant" for="field_nbreParticipant"
+            >Nbre Participant</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="nbreParticipant"
+            id="field_nbreParticipant"
+            data-cy="nbreParticipant"
+            formControlName="nbreParticipant"
+          />
+          <div
+            *ngIf="
+              editForm.get('nbreParticipant')!.invalid &&
+              (editForm.get('nbreParticipant')!.dirty || editForm.get('nbreParticipant')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nbreParticipant')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('nbreParticipant')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.nbreHeure" for="field_nbreHeure">Nbre Heure</label>
+          <input type="number" class="form-control" name="nbreHeure" id="field_nbreHeure" data-cy="nbreHeure" formControlName="nbreHeure" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.heureDebut" for="field_heureDebut">Heure Debut</label>
+          <div class="d-flex">
+            <input
+              id="field_heureDebut"
+              data-cy="heureDebut"
+              type="datetime-local"
+              class="form-control"
+              name="heureDebut"
+              formControlName="heureDebut"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.heureFin" for="field_heureFin">Heure Fin</label>
+          <div class="d-flex">
+            <input
+              id="field_heureFin"
+              data-cy="heureFin"
+              type="datetime-local"
+              class="form-control"
+              name="heureFin"
+              formControlName="heureFin"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.contenuFormation" for="field_contenuFormation"
+            >Contenu Formation</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="contenuFormation"
+            id="field_contenuFormation"
+            data-cy="contenuFormation"
+            formControlName="contenuFormation"
+          />
+          <div
+            *ngIf="
+              editForm.get('contenuFormation')!.invalid &&
+              (editForm.get('contenuFormation')!.dirty || editForm.get('contenuFormation')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('contenuFormation')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="azimutApp.session.modules" for="field_modules">Modules</label>
+          <select class="form-control" id="field_modules" data-cy="modules" name="modules" formControlName="modules">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="modulesOption.id === editForm.get('modules')!.value?.id ? editForm.get('modules')!.value : modulesOption"
+              *ngFor="let modulesOption of modulesSharedCollection; trackBy: trackModulesById"
+            >
+              {{ modulesOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
